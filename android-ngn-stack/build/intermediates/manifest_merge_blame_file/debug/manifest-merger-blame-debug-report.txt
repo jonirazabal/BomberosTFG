@@ -1,0 +1,188 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<!--
+3  ~
+4  ~ *  Copyright (C) 2018, University of the Basque Country (UPV/EHU)
+5  ~ *
+6  ~ * Contact for licensing options: <licensing-mcpttclient(at)mcopenplatform(dot)com>
+7  ~ *
+8  ~ * This file is part of MCOP MCPTT Client
+9  ~ *
+10  ~ * This is free software: you can redistribute it and/or modify it under the terms of
+11  ~ * the GNU General Public License as published by the Free Software Foundation, either version 3
+12  ~ * of the License, or (at your option) any later version.
+13  ~ *
+14  ~ * This is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+15  ~ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+16  ~ * See the GNU General Public License for more details.
+17  ~ *
+18  ~ * You should have received a copy of the GNU General Public License along
+19  ~ * with this program; if not, write to the Free Software Foundation, Inc.,
+20  ~ * 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+21-->
+22<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+23    xmlns:tools="http://schemas.android.com/tools"
+24    package="org.doubango.ngn"
+25    android:versionCode="2"
+26    android:versionName="2.0" >
+27
+28    <uses-sdk
+29        android:minSdkVersion="17"
+29-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml
+30        android:targetSdkVersion="28" />
+30-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml
+31
+32    <uses-permission android:name="android.permission.INTERNET" />
+32-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:28:5-67
+32-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:28:22-64
+33    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+33-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:29:5-76
+33-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:29:22-73
+34    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+34-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:30:5-79
+34-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:30:22-76
+35    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+35-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:31:5-76
+35-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:31:22-73
+36    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+36-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:32:5-79
+36-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:32:22-76
+37    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+37-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:33:5-81
+37-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:33:22-78
+38    <uses-permission android:name="android.permission.CAMERA" />
+38-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:34:5-65
+38-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:34:22-62
+39    <uses-permission android:name="android.permission.WAKE_LOCK" />
+39-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:35:5-68
+39-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:35:22-65
+40    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+40-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:36:5-71
+40-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:36:22-68
+41    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+41-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:37:5-80
+41-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:37:22-77
+42    <uses-permission android:name="android.permission.VIBRATE" />
+42-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:38:5-66
+42-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:38:22-63
+43    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+43-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:39:5-81
+43-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:39:22-78
+44    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+44-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:40:5-73
+44-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:40:22-70
+45    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+45-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:41:5-75
+45-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:41:22-72
+46    <uses-permission android:name="android.permission.READ_CONTACTS" />
+46-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:42:5-72
+46-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:42:22-69
+47    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+47-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:43:5-73
+47-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:43:22-70
+48    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+48-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:44:5-75
+48-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:44:22-72
+49    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+49-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:45:5-81
+49-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:45:22-78
+50    <uses-permission android:name="android.permission.CALL_PHONE" />
+50-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:46:5-69
+50-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:46:22-66
+51    <uses-permission android:name="android.permission.RAISED_THREAD_PRIORITY" />
+51-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:47:5-81
+51-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:47:22-78
+52
+53    <!-- Location permission -->
+54    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+54-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:50:5-79
+54-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:50:22-76
+55    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+55-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:51:5-81
+55-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:51:22-78
+56
+57    <uses-feature android:name="android.hardware.location.gps" />
+57-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:53:5-66
+57-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:53:19-63
+58    <uses-feature
+58-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:54:5-56:36
+59        android:glEsVersion="0x00020000"
+59-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:55:9-41
+60        android:required="false" />
+60-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:56:9-33
+61    <uses-feature
+61-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:57:5-59:36
+62        android:name="android.hardware.camera"
+62-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:58:9-47
+63        android:required="false" />
+63-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:59:9-33
+64    <uses-feature
+64-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:60:5-62:36
+65        android:name="android.hardware.audio.low_latency"
+65-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:61:9-58
+66        android:required="false" />
+66-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:62:9-33
+67
+68    <!-- <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="11" /> -->
+69    <application
+69-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:65:5-100:19
+70        android:name="org.doubango.ngn.NgnApplication"
+70-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:66:9-39
+71        android:hardwareAccelerated="true"
+71-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:67:9-43
+72        android:label="@string/app_name" >
+72-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:68:9-41
+73        <service android:name="org.doubango.ngn.NgnNativeService" />
+73-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:69:9-53
+73-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:69:18-50
+74        <service
+74-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:70:9-73:39
+75            android:name="org.doubango.ngn.services.impl.location.LocationServer"
+75-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:71:13-66
+76            android:enabled="true"
+76-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:72:13-35
+77            android:exported="true" />
+77-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:73:13-36
+78
+79        <activity
+79-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:74:9-97:20
+80            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+80-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:75:13-74
+81            tools:node="replace" >
+81-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:76:13-33
+82            <intent-filter>
+82-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:77:13-96:29
+83                <action android:name="android.intent.action.VIEW" />
+83-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:78:17-69
+83-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:78:25-66
+84
+85                <category android:name="android.intent.category.DEFAULT" />
+85-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:80:17-76
+85-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:80:27-73
+86
+87                <action android:name="android.intent.action.SEND" />
+87-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:82:17-69
+87-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:82:25-66
+88
+89                <category android:name="android.intent.category.BROWSABLE" />
+89-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:84:17-78
+89-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:84:27-75
+90                <!--
+91                  <data android:scheme="http"
+92                  android:host="httpbin.org"
+93                  android:path="/get"/>
+94                -->
+95                <!-- <data android:scheme="com.google.codelabs.appauth.HANDLE_AUTHORIZATION_RESPONSE"/> -->
+96
+97                <data
+97-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:92:17-95:45
+98                    android:host="192.168.16.181:8080"
+98-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:93:21-55
+99                    android:path="/get"
+99-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:94:21-40
+100                    android:scheme="http" />
+100-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\src\main\AndroidManifest.xml:95:21-42
+101            </intent-filter>
+102        </activity>
+103    </application>
+104
+105</manifest>

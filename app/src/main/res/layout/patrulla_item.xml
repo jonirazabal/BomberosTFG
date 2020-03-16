@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearPatrullaItem"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/patrullaItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:text="Patrulla"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/incendiosItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Incendios" />
+
+        <TextView
+            android:id="@+id/salvamentosItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salvamentos" />
+
+        <TextView
+            android:id="@+id/asistenciasItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Asistencias" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/distanciaMin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:text="distancia" />
+
+    <Button
+        android:id="@+id/enviarPatrulla"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:layout_weight="0"
+        android:text="Enviar" />
+
+    <ImageView
+        android:id="@+id/audioPatrulla"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        app:srcCompat="@mipmap/ic_grupo_round" />
+
+
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="micolor">#DDCCAA</color>
+    <color name="OK">#23AA44</color>
+    <color name="Disabled">#000000</color>
+    <color name="Red">#D3D11313</color>
+    <color name="Selected">#999999</color>
+    <color name="white">#FFFFFF</color>
+    <color name="CardView">#BBBBBB</color>
+    <color name="ocupado">#CDDBA212</color>
+</resources>

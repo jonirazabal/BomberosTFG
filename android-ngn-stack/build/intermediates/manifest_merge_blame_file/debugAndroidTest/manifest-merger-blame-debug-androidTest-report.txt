@@ -1,0 +1,206 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="org.doubango.ngn.test" >
+4
+5    <uses-sdk
+5-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:5:5-74
+6        android:minSdkVersion="17"
+6-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:5:15-41
+7        android:targetSdkVersion="28" />
+7-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:5:42-71
+8
+9    <instrumentation
+9-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:11:5-15:71
+10        android:name="android.support.test.runner.AndroidJUnitRunner"
+10-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:11:22-83
+11        android:functionalTest="false"
+11-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:14:22-52
+12        android:handleProfiling="false"
+12-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:13:22-53
+13        android:label="Tests for org.doubango.ngn.test"
+13-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:15:22-69
+14        android:targetPackage="org.doubango.ngn.test" />
+14-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:12:22-67
+15
+16    <uses-permission android:name="android.permission.INTERNET" />
+16-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:32:5-67
+16-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:32:22-64
+17    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+17-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:5-76
+17-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:22-73
+18    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+18-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:34:5-79
+18-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:34:22-76
+19    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+19-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:35:5-76
+19-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:35:22-73
+20    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+20-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:5-79
+20-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:22-76
+21    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+21-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:5-81
+21-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:22-78
+22    <uses-permission android:name="android.permission.CAMERA" />
+22-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:5-65
+22-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:22-62
+23    <uses-permission android:name="android.permission.WAKE_LOCK" />
+23-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:5-68
+23-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:22-65
+24    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+24-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:5-71
+24-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:22-68
+25    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+25-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:41:5-80
+25-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:41:22-77
+26    <uses-permission android:name="android.permission.VIBRATE" />
+26-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:42:5-66
+26-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:42:22-63
+27    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+27-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:43:5-81
+27-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:43:22-78
+28    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+28-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:44:5-73
+28-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:44:22-70
+29    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+29-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:45:5-75
+29-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:45:22-72
+30    <uses-permission android:name="android.permission.READ_CONTACTS" />
+30-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:46:5-72
+30-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:46:22-69
+31    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+31-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:47:5-73
+31-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:47:22-70
+32    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+32-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:48:5-75
+32-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:48:22-72
+33    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+33-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:49:5-81
+33-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:49:22-78
+34    <uses-permission android:name="android.permission.CALL_PHONE" />
+34-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:50:5-69
+34-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:50:22-66
+35    <uses-permission android:name="android.permission.RAISED_THREAD_PRIORITY" /> <!-- Location permission -->
+35-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:51:5-81
+35-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:51:22-78
+36    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+36-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:54:5-79
+36-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:54:22-76
+37    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+37-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:55:5-81
+37-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:55:22-78
+38
+39    <uses-feature android:name="android.hardware.location.gps" />
+39-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:57:5-66
+39-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:57:19-63
+40    <uses-feature
+40-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:58:5-60:36
+41        android:glEsVersion="0x00020000"
+41-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:59:9-41
+42        android:required="false" />
+42-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:60:9-33
+43    <uses-feature
+43-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:61:5-63:36
+44        android:name="android.hardware.camera"
+44-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:62:9-47
+45        android:required="false" />
+45-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:63:9-33
+46    <uses-feature
+46-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:64:5-66:36
+47        android:name="android.hardware.audio.low_latency"
+47-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:65:9-58
+48        android:required="false" />
+48-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:66:9-33
+49
+50    <application
+50-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:7:5-9:19
+51        android:name="org.doubango.ngn.NgnApplication"
+51-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:70:9-55
+52        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+52-->[androidx.core:core:1.0.0] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\d2fc3d0b7c5bbb2c7d9ffb8ed8fd4986\core-1.0.0\AndroidManifest.xml:22:18-86
+53        android:debuggable="true"
+53-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:7:18-43
+54        android:hardwareAccelerated="true"
+54-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:71:9-43
+55        android:label="@string/app_name" >
+55-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:9-41
+56        <uses-library android:name="android.test.runner" />
+56-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:8:9-60
+56-->C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2868347791964868311.xml:8:23-57
+57
+58        <service android:name="org.doubango.ngn.NgnNativeService" />
+58-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:73:9-69
+58-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:73:18-66
+59        <service
+59-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:74:9-77:39
+60            android:name="org.doubango.ngn.services.impl.location.LocationServer"
+60-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:75:13-82
+61            android:enabled="true"
+61-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:76:13-35
+62            android:exported="true" />
+62-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:77:13-36
+63
+64        <activity android:name="net.openid.appauth.RedirectUriReceiverActivity" >
+64-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:79:9-102:20
+64-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:80:13-74
+65            <intent-filter>
+65-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:82:13-101:29
+66                <action android:name="android.intent.action.VIEW" />
+66-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:83:17-69
+66-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:83:25-66
+67
+68                <category android:name="android.intent.category.DEFAULT" />
+68-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:85:17-76
+68-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:85:27-73
+69
+70                <action android:name="android.intent.action.SEND" />
+70-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:87:17-69
+70-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:87:25-66
+71
+72                <category android:name="android.intent.category.BROWSABLE" />
+72-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:89:17-78
+72-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:89:27-75
+73                <!--
+74                  <data android:scheme="http"
+75                  android:host="httpbin.org"
+76                  android:path="/get"/>
+77                -->
+78                <!-- <data android:scheme="com.google.codelabs.appauth.HANDLE_AUTHORIZATION_RESPONSE"/> -->
+79
+80                <data
+80-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:97:17-100:45
+81                    android:host="192.168.16.181:8080"
+81-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:98:21-55
+82                    android:path="/get"
+82-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:99:21-40
+83                    android:scheme="http" />
+83-->[__tested_artifact__::android-ngn-stack] C:\Users\yo\Desktop\BomberosTFG\android-ngn-stack\build\intermediates\library_manifest\debug\AndroidManifest.xml:100:21-42
+84            </intent-filter>
+85        </activity>
+86        <activity
+86-->[net.openid:appauth:0.4.1] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\f43e13e3f56c325d394addca2a363306\jetified-appauth-0.4.1\AndroidManifest.xml:27:9-31:75
+87            android:name="net.openid.appauth.AuthorizationManagementActivity"
+87-->[net.openid:appauth:0.4.1] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\f43e13e3f56c325d394addca2a363306\jetified-appauth-0.4.1\AndroidManifest.xml:28:13-78
+88            android:exported="false"
+88-->[net.openid:appauth:0.4.1] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\f43e13e3f56c325d394addca2a363306\jetified-appauth-0.4.1\AndroidManifest.xml:29:13-37
+89            android:launchMode="singleTask"
+89-->[net.openid:appauth:0.4.1] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\f43e13e3f56c325d394addca2a363306\jetified-appauth-0.4.1\AndroidManifest.xml:30:13-44
+90            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+90-->[net.openid:appauth:0.4.1] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\f43e13e3f56c325d394addca2a363306\jetified-appauth-0.4.1\AndroidManifest.xml:31:13-72
+91        <activity
+91-->[com.google.android.gms:play-services-base:11.6.0] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\cf5c1b8875964c02f81b95df109b43fd\jetified-play-services-base-11.6.0\AndroidManifest.xml:19:9-172
+92            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+92-->[com.google.android.gms:play-services-base:11.6.0] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\cf5c1b8875964c02f81b95df109b43fd\jetified-play-services-base-11.6.0\AndroidManifest.xml:19:19-85
+93            android:exported="false"
+93-->[com.google.android.gms:play-services-base:11.6.0] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\cf5c1b8875964c02f81b95df109b43fd\jetified-play-services-base-11.6.0\AndroidManifest.xml:19:146-170
+94            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+94-->[com.google.android.gms:play-services-base:11.6.0] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\cf5c1b8875964c02f81b95df109b43fd\jetified-play-services-base-11.6.0\AndroidManifest.xml:19:86-145
+95
+96        <meta-data
+96-->[com.google.android.gms:play-services-basement:11.6.0] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\fc6739e3e18976737214b52be8c93218\jetified-play-services-basement-11.6.0\AndroidManifest.xml:20:9-121
+97            android:name="com.google.android.gms.version"
+97-->[com.google.android.gms:play-services-basement:11.6.0] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\fc6739e3e18976737214b52be8c93218\jetified-play-services-basement-11.6.0\AndroidManifest.xml:20:20-65
+98            android:value="@integer/google_play_services_version" />
+98-->[com.google.android.gms:play-services-basement:11.6.0] C:\Users\yo\.gradle\caches\transforms-2\files-2.1\fc6739e3e18976737214b52be8c93218\jetified-play-services-basement-11.6.0\AndroidManifest.xml:20:66-119
+99    </application>
+100
+101</manifest>

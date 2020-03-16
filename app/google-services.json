@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1011582694495",
+    "firebase_url": "https://bomberos-45367.firebaseio.com",
+    "project_id": "bomberos-45367",
+    "storage_bucket": "bomberos-45367.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011582694495:android:9044066548190d0ced17ea",
+        "android_client_info": {
+          "package_name": "com.example.android.bomberostfg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011582694495-q10haju5dg9lk6qbqgllv7cha1fvf7p0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.bomberostfg",
+            "certificate_hash": "15eee26fb16035fdccc2a5d2178e8dadfce7402c"
+          }
+        },
+        {
+          "client_id": "1011582694495-9nu9bofvbjr4omg2j5bk5mc8u6pjia01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTYahLQbl6Yya8rGq30-drS1fazzN1fcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011582694495-9nu9bofvbjr4omg2j5bk5mc8u6pjia01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
