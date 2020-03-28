@@ -96,7 +96,7 @@ public class AdaptadorPatrullas extends ArrayAdapter<Patrulla> implements View.O
         TextView salvamentos = (TextView) row.findViewById(R.id.salvamentosItem);
         TextView asistencias = (TextView) row.findViewById(R.id.asistenciasItem);
         TextView distancia = (TextView) row.findViewById(R.id.distanciaMin);
-        final ImageView audio = (ImageView) row.findViewById(R.id.audioPatrulla);
+        ImageView audio = (ImageView) row.findViewById(R.id.audioPatrulla);
         incendios.setVisibility(View.INVISIBLE);
         salvamentos.setVisibility(View.INVISIBLE);
         asistencias.setVisibility(View.INVISIBLE);

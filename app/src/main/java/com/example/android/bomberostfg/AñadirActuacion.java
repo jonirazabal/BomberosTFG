@@ -35,6 +35,7 @@ public class AñadirActuacion extends AppCompatActivity {
     private EditText numero;
     private Button crear;
     private String actuacionElegida;
+    private String situacionElegida;
     private BaseDeDatos database;
     float latitud=0, longitud=0;
 
@@ -51,6 +52,7 @@ public class AñadirActuacion extends AppCompatActivity {
         calle = (EditText) findViewById(R.id.calleEdit);
         numero = (EditText) findViewById(R.id.numeroEdit);
         crear = (Button) findViewById(R.id.crearButton);
+
         crear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +74,8 @@ public class AñadirActuacion extends AppCompatActivity {
                         longitud = Float.valueOf(longitudEdit.getText().toString());
                         database = new BaseDeDatos(getApplicationContext());
                         database.execute("insertarActuacion.php",spinnerSituacion.getSelectedItem().toString(),spinnerActuacion.getSelectedItem().toString(),latitudEdit.getText().toString(),longitudEdit.getText().toString());
+                        database = new BaseDeDatos(getApplicationContext());
+                        database.execute("selectActuaciones.php");
                     }
                 }
                 finish();
@@ -94,12 +98,15 @@ public class AñadirActuacion extends AppCompatActivity {
                 ArrayList<String> elegido = new ArrayList<>();
                 switch(i){
                     case 0:
+                        actuacionElegida = adapterView.getItemAtPosition(0).toString();
                         elegido = incendios;
                         break;
                     case 1:
+                        actuacionElegida = adapterView.getItemAtPosition(1).toString();
                         elegido = salvamentos;
                         break;
                     case 2:
+                        actuacionElegida = adapterView.getItemAtPosition(2).toString();
                         elegido = asistencia;
                         break;
                 }

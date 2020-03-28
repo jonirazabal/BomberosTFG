@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -37,13 +38,16 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,6 +57,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.navigation.NavController;
@@ -61,6 +66,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.example.android.bomberostfg.datatype.UserData;
 
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -86,6 +92,8 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
@@ -98,6 +106,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.prefs.Preferences;
 
 import com.example.android.bomberostfg.preference.PreferencesManagerDefault;
 import com.google.firebase.database.DataSnapshot;
@@ -105,6 +114,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.mcopenplatform.muoapi.IMCOPCallback;
 import org.mcopenplatform.muoapi.IMCOPsdk;
@@ -136,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private static final int UBICACION_ACTIVADA = 90;
     private static final int CAMERA_RESULT = 80;
+    private static final int CAMERA_PERMISSION = 81;
     private static final int MANDAR_FOTO = 66;
     private List<Boton> botones;
     private boolean isSpeakerphoneOn = false;
@@ -151,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
     private CardView cortar;
     private CardView datos;
     private CardView altavoz;
-    private CardView camara;
+    private CardView chat;
     private CardView emergencia;
     private CardView añadirActuacion;
     private CardView botonHablar;
@@ -169,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
     private static TextView adress;
     private static TextView latitudText;
     private static TextView longitudText;
+    private TextView altavozTexto;
 
     String pueblo, calle;
     private LocationCallback locationCallback;
@@ -187,6 +200,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Integer> imagenes = new ArrayList<>();
     private ArrayList<String> nombres = new ArrayList<>();
     private DatabaseReference mEmergenciaReference;
+    private AudioManager mAudioManager;
+    private Thread threadSpeakerOn;
+    private String mensajeTotal= "";
 
     private enum State {
         GRANTED,
@@ -204,39 +220,41 @@ public class MainActivity extends AppCompatActivity {
 
     private CallType mCallType = CallType.GROUP;
     private boolean mERState = false;
-    private String selGroup = "sip:DEMO_group@organization.org";
+    private String selGroup = "sip:jonira_group@organization.org";
     private String selUser = "sip:mcptt_id_jonira_B@organization.org";
     private RelativeLayout fondoPrincipal;
     private FirebaseActivity firebaseActivity;
     private boolean emergenciaEnCurso = false;
     public PendingIntent pendingIntent;
-    public static int patrulla;
+    private int patrulla;
     private String mcptt_id;
     private float latitud, longitud = 0;
     private int REGISTRO_RESULT = 99;
-
+    private String nombre;
+    private SharedPreferences sharedPreferences;
+    private Mensaje mensaje;
+    private Thread thread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences = getSharedPreferences("mensajes",Context.MODE_PRIVATE);
         this.setTitle("MCOP communication");
         firebaseActivity = FirebaseActivity.getDatabase(this);
-        EscucharFirebase escucharFirebase = new EscucharFirebase();
-        escucharFirebase.execute();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        pedirPermisos();
+        setPermissions();
         database = new BaseDeDatos(getApplicationContext());
         database.execute("selectUnidades.php");
         database = new BaseDeDatos(getApplicationContext());
         database.execute("selectPatrullas.php");
         database = new BaseDeDatos(getApplicationContext());
         database.execute("selectActuaciones.php");
-        setPermissions();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         empezarLocationServices();
         Toolbar toolbar = findViewById(R.id.toolbar);
-        final TextView altavozTexto = (TextView) findViewById(R.id.textView3);
+        altavozTexto = (TextView) findViewById(R.id.textView3);
         setSupportActionBar(toolbar);
+        loadConfiguration();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -250,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
         cortar = (CardView) findViewById(R.id.cortarCard);
         datos = (CardView) findViewById(R.id.datosCard);
         altavoz = (CardView) findViewById(R.id.altavozCard);
-        camara = (CardView) findViewById(R.id.camaraCard);
+        chat = (CardView) findViewById(R.id.chatCard);
         emergencia = (CardView) findViewById(R.id.emergenciaCard);
         location = (CardView) findViewById(R.id.locationCard);
         añadirActuacion = (CardView) findViewById(R.id.actuacionesCard);
@@ -314,6 +332,7 @@ public class MainActivity extends AppCompatActivity {
                 if (registered) {
                     Intent i = new Intent(MainActivity.this, RegistroUsuario.class);
                     i.putExtra("id", mcptt_id);
+                    i.putExtra("registered", registered);
                     startActivity(i);
                 } else {
                     Toast.makeText(getApplicationContext(), "No estas registrado", Toast.LENGTH_SHORT).show();
@@ -333,15 +352,14 @@ public class MainActivity extends AppCompatActivity {
         spinnerUsers.setEnabled(true);
         spinnerUsers.setVisibility(View.VISIBLE);
         ArrayList<String> usersCurrent = new ArrayList<String>();
-        usersCurrent.add("sip:mcptt_id_jonira_A@organization.org");
         usersCurrent.add("sip:mcptt_id_jonira_B@organization.org");
+        usersCurrent.add("sip:mcptt_id_jonira_A@organization.org");
         usersCurrent.add("sip:mcptt_id_jonira_C@organization.org");
 
         // Group list
         // EDIT THIS LIST WITH THE PROVIDED GROUP NAME(s)
         groupsCurrent = new ArrayList<String>();
-        groupsCurrent.add("sip:DEMO_group@organization.org");
-        groupsCurrent.add("sip:DEMO_group2@organization.org");
+        groupsCurrent.add("sip:jonira_group@organization.org");
         // Adapter for User Spinner
         ArrayAdapter<String> userAdaptor = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_item, usersCurrent);
@@ -349,7 +367,6 @@ public class MainActivity extends AppCompatActivity {
         userAdaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerUsers.setAdapter(userAdaptor);
         loadGroups();
-        loadConfiguration();
 
         ArrayList<String> strings = getIntent().getStringArrayListExtra(PARAMETER_PROFILE);
         Map<String, String> parameterClients = getProfilesParameters(strings);
@@ -462,9 +479,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // Switch is off. Group Call
                     mCallType = CallType.GROUP;
-                    spinnerUsers.setVisibility((View.VISIBLE));
+                    spinnerUsers.setVisibility((View.INVISIBLE));
                     spinnerGroups.setVisibility((View.VISIBLE));
-                    spinnerUsers.setEnabled(true);
+                    spinnerUsers.setEnabled(false);
                     spinnerGroups.setEnabled(true);
                 }
             }
@@ -478,7 +495,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selUser = parent.getItemAtPosition(1).toString();
             }
         });
 
@@ -487,6 +503,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!registered) {
                     registro();
+                    System.out.println("Registro clickado");
                 }
             }
         });
@@ -497,33 +514,45 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        mAudioManager = (AudioManager)getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+
+        threadSpeakerOn = new Thread() {
+            @Override
+            public void run() {
+                        try {
+                            sleep(1000);
+                            System.out.println("STATUS: "+mAudioManager.isSpeakerphoneOn());
+                            mAudioManager.setMode(AudioManager.MODE_IN_CALL);
+                            if (!mAudioManager.isSpeakerphoneOn()){
+                                altavozTexto.setText("Altavoz ON");
+                                mAudioManager.setSpeakerphoneOn(true);
+                                System.out.println("STATUS CHANGED: "+mAudioManager.isSpeakerphoneOn());
+                            }
+                            else{
+                                altavozTexto.setText("Altavoz OFF");
+                                mAudioManager.setSpeakerphoneOn(false);
+                                System.out.println("STATUS CHANGED: "+mAudioManager.isSpeakerphoneOn());
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+        };
 
         altavoz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AudioManager mAudioManager;
-                mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                if (isSpeakerphoneOn) {
-                    isSpeakerphoneOn = false;
-                    altavozTexto.setText("Altavoz OFF");
-                } else {
-                    isSpeakerphoneOn = true;
-                    altavozTexto.setText("Altavoz ON");
-                }
-                mAudioManager.setSpeakerphoneOn(isSpeakerphoneOn);
+                threadSpeakerOn.run();
             }
         });
-        camara.setOnClickListener(new View.OnClickListener() {
+        chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                        && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
-                        && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(camera, CAMERA_RESULT);
-                } else {
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_RESULT);
-                }
+                Intent i = new Intent(MainActivity.this, Chat.class);
+                i.putExtra("mcptt_id", mcptt_id);
+                i.putExtra("patrulla", patrulla);
+                startActivity(i);
             }
         });
         emergencia.setOnClickListener(new View.OnClickListener() {
@@ -535,7 +564,8 @@ public class MainActivity extends AppCompatActivity {
                     LinearLayoutManager lm = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                     View row = getLayoutInflater().inflate(R.layout.emergencia_dialog, null);
                     final RecyclerView recyclerView = row.findViewById(R.id.emergenciasRecycler);
-                    RecyclerViewAdapter adapter = new RecyclerViewAdapter(nombres, imagenes, getApplicationContext());
+
+                    RecyclerViewAdapter adapter = new RecyclerViewAdapter(nombres, imagenes,patrulla, getApplicationContext());
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(lm);
                     builder.setView(row);
@@ -575,6 +605,9 @@ public class MainActivity extends AppCompatActivity {
                         maps.putExtra("latitud", Float.valueOf(latitudText.getText().toString()));
                         maps.putExtra("longitud", Float.valueOf(longitudText.getText().toString()));
                         maps.putExtra("mcptt_id", mcptt_id);
+                        System.out.println("ID: "+mcptt_id);
+                        System.out.println("Latitud: "+latitudText.getText().toString());
+                        System.out.println("Longitud: "+longitudText.getText().toString());
                         startActivity(maps);
                     }
                 } else {
@@ -583,6 +616,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
 
 
         mMCOPCallback = new IMCOPCallback.Stub() {
@@ -620,6 +655,8 @@ public class MainActivity extends AppCompatActivity {
                                                     if (BuildConfig.DEBUG)
                                                         Log.d(TAG, "onAuthentication URI: " + requestUri + " redirectionURI: " + redirect);
                                                     Intent intent2 = new Intent(getApplicationContext(), ScreenAuthenticationWebView.class);
+                                                    intent2.putExtra(ScreenAuthenticationWebView.DATA_USER, mcptt_id.split("-")[1]);
+                                                    intent2.putExtra(ScreenAuthenticationWebView.DATA_PASS, mcptt_id.split("-")[1]);
                                                     intent2.putExtra(ScreenAuthenticationWebView.DATA_URI_INTENT, requestUri.trim());
                                                     intent2.putExtra(ScreenAuthenticationWebView.DATA_REDIRECTION_URI, redirect.trim());
                                                     startActivityForResult(intent2, AUTHETICATION_RESULT);
@@ -634,9 +671,9 @@ public class MainActivity extends AppCompatActivity {
                                                 showLastError("LoginEvent", codeError, stringError);
                                             } else {
                                                 // No error
-                                                boolean success = false;
+                                                boolean success;
                                                 mcptt_id = null;
-                                                String displayName = null;
+                                                String displayName;
                                                 if ((success = action.getBooleanExtra(ConstantsMCOP.LoginEventExtras.SUCCESS, VALUE_BOOLEAN_DEFAULT)) == true &&
                                                         (mcptt_id = action.getStringExtra(ConstantsMCOP.LoginEventExtras.MCPTT_ID)) != null
                                                 ) {
@@ -644,12 +681,19 @@ public class MainActivity extends AppCompatActivity {
                                                         Log.d(TAG, "Login success: " + success + " mcptt_id: " + mcptt_id);
                                                     }
                                                     displayName = action.getStringExtra(ConstantsMCOP.LoginEventExtras.DISPLAY_NAME);
-                                                    status.setText(displayName);
                                                     database = new BaseDeDatos(getApplicationContext());
                                                     for (int i = 0; i < Utilidades.unidades.size(); i++) {
                                                         if (Utilidades.unidades.get(i).getMcptt_id().equals(mcptt_id)) {
-                                                            registered = true;
+                                                            System.out.println(Utilidades.unidades.get(i).getMcptt_id());
+                                                            System.out.println(mcptt_id);
                                                             patrulla = Utilidades.unidades.get(i).getPatrulla();
+                                                            nombre = Utilidades.unidades.get(i).getNombre();
+                                                            System.out.println("PATRULLA: "+patrulla);
+                                                            System.out.println("NOMBRE: "+nombre);
+                                                            status.setText(nombre);
+                                                            EscucharFirebase escucharFirebase = new EscucharFirebase();
+                                                            escucharFirebase.execute();
+                                                            registered = true;
                                                             break;
                                                         }
                                                     }
@@ -736,7 +780,7 @@ public class MainActivity extends AppCompatActivity {
                                                         spinnerGroups.setEnabled(false);
                                                         spinnerUsers.setEnabled(false);
                                                         aSwitch.setEnabled(false);
-                                                        emergencia.setEnabled(false);
+                                                        emergencia.setEnabled(true);
                                                         showData("callEvent (" + sessionID + ")", "INPROGRESS");
                                                         if (sessionID != null)
                                                             userData.addSessionID(sessionID);
@@ -755,7 +799,7 @@ public class MainActivity extends AppCompatActivity {
                                                         showData("callEvent (" + sessionID + ")", "CONNECTED");
                                                         if (sessionID != null)
                                                             userData.addSessionID(sessionID);
-                                                        emergencia.setEnabled(false);
+                                                        //emergencia.setEnabled(false);
                                                         break;
                                                     case TERMINATED:
                                                         Log.d(TAG, "STATE: TERMINATED");
@@ -1035,7 +1079,7 @@ public class MainActivity extends AppCompatActivity {
 
             ;
         };
-        locationRequest = new LocationRequest().setInterval(25000).setFastestInterval(20000)
+        locationRequest = new LocationRequest().setInterval(30000).setFastestInterval(30000)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         startLocationUpdates();
     }
@@ -1063,14 +1107,47 @@ public class MainActivity extends AppCompatActivity {
             mChannel.setVibrationPattern(new long[]{3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000});
 
             nm.createNotificationChannel(mChannel);
-            notificacion.setChannelId("1");
+            notificacion.setChannelId("4");
 
         }
 
         Intent i = new Intent(this, MainActivity.class);
         pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
         notificacion.setContentIntent(pendingIntent);
-        nm.notify(1, notificacion.build());
+        nm.notify(4, notificacion.build());
+    }
+
+    private void lanzarMensaje(String nombre, String mensaje) {
+        NotificationCompat.Builder notificacion = new NotificationCompat.Builder(this, "5");
+        notificacion.setAutoCancel(true);
+
+        notificacion.setSmallIcon(R.drawable.ic_chat_foreground);
+        notificacion.setContentTitle(nombre);
+        notificacion.setContentText(mensaje);
+        notificacion.setStyle(new NotificationCompat.BigTextStyle().bigText(mensaje)).build();
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel("5", "Mensajes", NotificationManager.IMPORTANCE_HIGH);
+            mChannel.setLightColor(Color.GRAY);
+            mChannel.enableLights(true);
+            mChannel.setDescription("Mensajes");
+            mChannel.enableVibration(true);
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .build();
+            mChannel.setVibrationPattern(new long[]{3000, 3000, 3000, 0, 3000, 0, 3000, 0, 3000, 0});
+
+            nm.createNotificationChannel(mChannel);
+            notificacion.setChannelId("5");
+
+        }
+
+        Intent i = new Intent(this, MainActivity.class);
+        pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificacion.setContentIntent(pendingIntent);
+        nm.notify(5, notificacion.build());
     }
 
     private void showLastError(String from, int code, String errorString) {
@@ -1103,6 +1180,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Log.d(TAG, "Call type: " + mCallType);
                     if (mService != null)
+                        System.out.println("SELUSER: "+selUser);
                         mService.makeCall(
                                 selUser, //DEFAULT_PRIVATE_CALL,
                                 ConstantsMCOP.CallEventExtras.CallTypeEnum.Audio.getValue() |
@@ -1158,7 +1236,7 @@ public class MainActivity extends AppCompatActivity {
                     mService.floorControlOperation(
                             strings[0],
                             request ? ConstantsMCOP.FloorControlEventExtras.FloorControlOperationTypeEnum.MCPTT_Request.getValue() : ConstantsMCOP.FloorControlEventExtras.FloorControlOperationTypeEnum.MCPTT_Release.getValue(),
-                            null);
+                            mcptt_id);
                 }
                 Log.i(TAG, "Send floor control operation 2: " + ((request) ? "request" : "release"));
 
@@ -1176,7 +1254,7 @@ public class MainActivity extends AppCompatActivity {
                                 mService.floorControlOperation(
                                         strings[item],
                                         request ? ConstantsMCOP.FloorControlEventExtras.FloorControlOperationTypeEnum.MCPTT_Request.getValue() : ConstantsMCOP.FloorControlEventExtras.FloorControlOperationTypeEnum.MCPTT_Release.getValue(),
-                                        null);
+                                        mcptt_id);
                                 Log.i(TAG, "Send floor control operation 3: " + ((request) ? "request" : "release"));
                             }
 
@@ -1208,7 +1286,6 @@ public class MainActivity extends AppCompatActivity {
     private void showGroups(Map<String, Integer> groups) {
         String result = "";
         if (groups != null) {
-            groupsCurrent = new ArrayList<>();
             for (String groupID : groups.keySet()) {
                 String type = "";
                 switch (ConstantsMCOP.GroupAffiliationEventExtras.GroupAffiliationStateEnum.fromInt(groups.get(groupID))) {
@@ -1249,7 +1326,7 @@ public class MainActivity extends AppCompatActivity {
             userData.setDisplayName(displayName);
         }
         consola.setText("REGISTERED - MCPTT ID: " + mcpttID + " DISPLAY NAME: " + displayName);
-        status.setText(displayName);
+        status.setText(nombre);
         status.setTextColor(getColor(R.color.OK));
         registered=true;
         invalidateOptionsMenu();
@@ -1289,7 +1366,7 @@ public class MainActivity extends AppCompatActivity {
             añadirActuacion.setCardBackgroundColor(getColor(R.color.CardView));
             datos.setCardBackgroundColor(getColor(R.color.CardView));
             altavoz.setCardBackgroundColor(getColor(R.color.CardView));
-            camara.setCardBackgroundColor(getColor(R.color.CardView));
+            chat.setCardBackgroundColor(getColor(R.color.CardView));
             emergencia.setCardBackgroundColor(getColor(R.color.Red));
             location.setCardBackgroundColor(getColor(R.color.CardView));
             registro.setCardBackgroundColor(getColor(R.color.Disabled));
@@ -1314,7 +1391,7 @@ public class MainActivity extends AppCompatActivity {
             añadirActuacion.setCardBackgroundColor(getColor(R.color.Disabled));
             datos.setCardBackgroundColor(getColor(R.color.Disabled));
             altavoz.setCardBackgroundColor(getColor(R.color.Disabled));
-            camara.setCardBackgroundColor(getColor(R.color.Disabled));
+            chat.setCardBackgroundColor(getColor(R.color.Disabled));
             emergencia.setCardBackgroundColor(getColor(R.color.Disabled));
             location.setCardBackgroundColor(getColor(R.color.Disabled));
         }
@@ -1404,12 +1481,14 @@ public class MainActivity extends AppCompatActivity {
                 if (mService != null) {
                     try {
                         mService.unLoginMCOP();
-
+                        if (serviceIntent != null) {
+                            mConnection = null;
+                        }
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
                 }
-                //android.os.Process.killProcess(android.os.Process.myPid());
+                android.os.Process.killProcess(android.os.Process.myPid());
                 break;
             default:
                 break;
@@ -1475,9 +1554,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 if (BuildConfig.DEBUG) Log.w(TAG, "Error in start service: " + e.getMessage());
             }
-            if (mConnection != null)
-                Log.e("mConnection", serviceIntent.toString() + ", " + mConnection.toString());
-            Log.i(TAG, "Bind Service: " + bindService(serviceIntent, mConnection, BIND_AUTO_CREATE));
+            if (mConnection != null) Log.i(TAG, "Bind Service: " + bindService(serviceIntent, mConnection, BIND_AUTO_CREATE));
         }
     }
 
@@ -1525,22 +1602,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if (BuildConfig.DEBUG) Log.i(TAG, "onDestroy");
-        isConnect = false;
-        if (mConnection != null && isConnect) {
-            try {
-                unbindService(mConnection);
-            } catch (Exception e) {
-                Log.e(TAG, "Error unbinding Service");
-            }
-        }
-        if (serviceIntent != null) ;
-        mConnection = null;
         saveConfiguration();
         super.onDestroy();
     }
 
     @Override
     protected void onResume() {
+        loadConfiguration();
         super.onResume();
     }
 
@@ -1559,9 +1627,21 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 preferencesManager.putString(this, PARAMETER_CONFIG_AUTOREGISTER, "Manual");
             }
-            return true;
         }
-        return false;
+        System.out.println("Mensajes guardados: " + Utilidades.mensajes.toString());
+        SharedPreferences SharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+        SharedPreferences.Editor editor = SharedPrefs.edit();
+        Gson gson = new Gson();
+        for(int i=0;i<Utilidades.mensajes.size();i++){
+            System.out.println("Guardados: "+Utilidades.mensajes.get(i).getKey());
+        }
+        String json = gson.toJson(Utilidades.mensajes);
+        editor.remove("mensajes").apply();
+        editor.remove("mensajes").commit();
+        editor.putString("mensajes", json);
+        editor.commit();
+        return true;
     }
 
     private void loadConfiguration() {
@@ -1587,6 +1667,16 @@ public class MainActivity extends AppCompatActivity {
                 autoRegister = false;
             }
         }
+        SharedPreferences SharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+        Gson gson = new Gson();
+        String json = SharedPrefs.getString("notificaciones", "");
+        Type type = new TypeToken<List<Mensaje>>(){}.getType();
+        if(gson.fromJson(json,type)!=null) {
+            Utilidades.mensajes.clear();
+            Utilidades.mensajes = gson.fromJson(json, type);
+        }
+
     }
 
     private void startERState() {
@@ -1704,13 +1794,6 @@ public class MainActivity extends AppCompatActivity {
                 actualizarPatrullas();
             }
         }
-        if (requestCode == MANDAR_FOTO) {
-            if (resultCode == RESULT_OK) {
-                EnviarFotoDialog dialog = new EnviarFotoDialog();
-            } else {
-
-            }
-        }
         if (requestCode == REQUEST_TAKE_PHOTO) {
             Toast.makeText(getApplicationContext(), "Foto guardada", Toast.LENGTH_SHORT).show();
             galleryAddPic();
@@ -1719,6 +1802,9 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
+                View registro = LayoutInflater.from(this).inflate(R.layout.registro_usuarios, null);
+                ImageView fotoPerfil = (ImageView) registro.findViewById(R.id.fotoDePerfil);
+                fotoPerfil.setImageBitmap(imageBitmap);
                 dispatchTakePictureIntent();
                 galleryAddPic();
             } else {
@@ -1765,18 +1851,19 @@ public class MainActivity extends AppCompatActivity {
 
     private File createImageFile() throws IOException {
         // Create an image file name
+        // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = new File("/Bomberos/");
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-        Log.e("Image", image.getAbsolutePath().toString());
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
+        System.out.println("CurrentPhotoPath: "+ currentPhotoPath);
         return image;
     }
 
@@ -1806,6 +1893,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void galleryAddPic() {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        System.out.println("Current Photo Path: "+currentPhotoPath);
         File f = new File(currentPhotoPath);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
@@ -1815,11 +1903,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case CAMERA_RESULT: {
+            case CAMERA_PERMISSION: {
                 // Si la petición es cancelada, el array resultante estará vacío.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // El permiso ha sido concedido.
                     Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Uri uri = Uri.parse(currentPhotoPath);
+                    camera.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
                     startActivityForResult(camera, CAMERA_RESULT);
                 } else {
                     // Permiso denegado, deshabilita la funcionalidad que depende de este permiso.
@@ -1888,6 +1978,7 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -1899,12 +1990,12 @@ public class MainActivity extends AppCompatActivity {
                 //this thread waiting for the user's response! After the user
                 //sees the explanation, request the permission again.
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
+                        new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
                         GET_PERMISSION);
             } else {
                 //No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
+                        new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
                         GET_PERMISSION);
 
                 //MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
@@ -1924,17 +2015,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
-        }
-    }
-
-    private void pedirPermisos() {
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                activarGps();
-            }
-        } else {
-            //Pedir permisos
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_FINE_LOCATION);
         }
     }
 
@@ -1975,7 +2055,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class EscucharFirebase extends AsyncTask<String, String, String> {
-
+        private boolean esta = false;
         @Override
         protected String doInBackground(String... strings) {
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -1986,6 +2066,7 @@ public class MainActivity extends AppCompatActivity {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         Map<String, Object> map = (Map<String, Object>) ds.getValue();
                         if ((Long) map.get("Patrulla") == patrulla && map.get("Final") == null) {
+                            mERState=true;
                             if (map.get("Tipo").equals("Informe de situación"))
                                 fondoPrincipal.setBackgroundColor(getColor(R.color.ocupado));
                             if (map.get("Tipo").equals("Evacuacion inmediata"))
@@ -1998,10 +2079,13 @@ public class MainActivity extends AppCompatActivity {
                                 Utilidades.emergenciaKey.add(ds.getKey());
 
                         }
-                        if ((Long) map.get("Patrulla") == patrulla && map.get("Final") != null) {
+                        if ( Integer.parseInt(map.get("Patrulla").toString()) == patrulla && map.get("Final") != null) {
+                            mERState=false;
                             fondoPrincipal.setBackgroundColor(Color.BLACK);
-                            consola.setText(map.get("Tipo") + " FINALIZADO" + "\r\n" + map.get("Patrulla") + "\r\n" + map.get("Final"));
-                            Utilidades.emergenciaKey.clear();
+                            if(Utilidades.emergenciaKey.contains(ds.getKey())) {
+                                consola.setText(map.get("Tipo") + " FINALIZADO" + "\r\n" + map.get("Patrulla") + "\r\n" + map.get("Final"));
+                                Utilidades.emergenciaKey.clear();
+                            }
                         }
                     }
 
@@ -2018,9 +2102,76 @@ public class MainActivity extends AppCompatActivity {
                     // [END_EXCLUDE]
                 }
             });
+            final HashMap<String,String> mensajesUsuario = new HashMap<>();
+            databaseReference.child("mensajes").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // Get Post object and use the values to update the UI
+                    mensajesUsuario.clear();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        Map<String, Object> map = (Map<String, Object>) ds.getValue();
+                        String idMensaje =  String.valueOf(map.get("mcptt_id"));
+                        String tipo =  String.valueOf(map.get("Tipo"));
+                        int patrullaMensaje = Integer.parseInt(String.valueOf(map.get("Patrulla")));
+                        String mensajeString =  String.valueOf(map.get("Mensaje"));
+                        String fecha = String.valueOf(map.get("Fecha"));
+                        if(tipo.equals("imagen")){
+                            mensajeString = "Imagen";
+                        }
+                        Mensaje notificacion = new Mensaje(ds.getKey(),idMensaje,patrulla,fecha,tipo,mensajeString);
+                        if(patrullaMensaje == patrulla) {
+                            if(!mcptt_id.equals(idMensaje)) {
+                                if(Utilidades.mensajes.size()==0){
+                                    //Utilidades.mensajes.add(notificacion);
+                                    if(tipo.equals("imagen")) mensajeString = "imagen";
+                                    mensajesUsuario.put(idMensaje, mensajeString);
+                                    esta = true;
+                                }
+                                for(int i=0;i<Utilidades.mensajes.size();i++) {
+                                    if(Utilidades.mensajes.get(i).getKey().equals(ds.getKey())) {
+                                        esta = true;
+                                        break;
+                                    }
+                                }
+                                if(!esta){
+                                    //Utilidades.mensajes.add(notificacion);
+                                    if(tipo.equals("imagen")) mensajeString = "imagen";
+                                    if (mensajesUsuario.containsKey(idMensaje)) {
+                                        String otroMensaje = mensajesUsuario.get(idMensaje);
+                                        mensajeTotal = otroMensaje + "\r\n" + mensajeString;
+                                        mensajesUsuario.remove(idMensaje);
+                                        mensajesUsuario.put(idMensaje, otroMensaje);
+                                    } else {
+                                        mensajesUsuario.put(idMensaje, mensajeString);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    for(String key: mensajesUsuario.keySet()) {
+                        for(int i=0;i<Utilidades.unidades.size();i++){
+                            if(Utilidades.unidades.get(i).getMcptt_id().equals(key)){
+                                lanzarMensaje(Utilidades.unidades.get(i).getNombre(), mensajesUsuario.get(key));
+                            }
+                        }
+                    }
+                    esta = false;
+                }
 
-            DatabaseReference databaseReferenceOrden = FirebaseDatabase.getInstance().getReference();
-            databaseReferenceOrden.child("ordenes").addValueEventListener(new ValueEventListener() {
+
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                    Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                    // [START_EXCLUDE]
+                    Toast.makeText(getApplicationContext(), "Failed to load post.",
+                            Toast.LENGTH_SHORT).show();
+                    // [END_EXCLUDE]
+                }
+            });
+
+            databaseReference.child("ordenes").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // Get Post object and use the values to update the UI
@@ -2028,9 +2179,9 @@ public class MainActivity extends AppCompatActivity {
                         Map<String, Object> map = (Map<String, Object>) ds.getValue();
                             if (Integer.parseInt(map.get("Patrulla").toString()) == patrulla && map.get("Fin").equals("")) {
                                 lanzarNotificacion(map.get("Nombre").toString(), map.get("Direccion").toString());
-                                consola.setText(map.get("Nombre") + "\r\n" + map.get("Direccion") + "\r\n" + map.get("Fecha"));
+                                consola.setText(map.get("Nombre") + "\r\n" + map.get("Direccion") + "\r\n" + map.get("Inicio"));
                             } else if (Integer.parseInt(map.get("Patrulla").toString()) == patrulla && map.get("Fin") != "") {
-                                consola.setText(map.get("Nombre") + " FINALIZADO" + "\r\n" + map.get("Patrulla") + "\r\n" + map.get("Final"));
+                                consola.setText(map.get("Nombre") + " FINALIZADO" + "\r\n" + map.get("Patrulla") + "\r\n" + map.get("Fin"));
                             }
                     }
                 }

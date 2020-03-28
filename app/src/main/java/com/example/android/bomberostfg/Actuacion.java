@@ -6,6 +6,7 @@ public class Actuacion {
     private String tipo;
     private float latitud;
     private float longitud;
+    private String fechaFinal;
 
     public String getTipo() {
         return tipo;
@@ -45,6 +46,14 @@ public class Actuacion {
 
     public void setLongitud(float longitud) {
         this.longitud = longitud;
+    }
+
+    public String getFechaFinal() {
+        return fechaFinal;
+    }
+
+    public void setFechaFinal(String fechaFinal) {
+        this.fechaFinal = fechaFinal;
     }
 
     @Override

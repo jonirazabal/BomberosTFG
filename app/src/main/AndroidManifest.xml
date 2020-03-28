@@ -19,12 +19,15 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_grupo_round"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -58,6 +61,7 @@
         </provider>
 
 
+
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
@@ -67,6 +71,9 @@
         <activity
             android:name=".GestionarUnidades"
             android:label="Envio de refuerzos"></activity>
+        <activity
+            android:name=".Chat"
+            android:label="Chat de grupo"></activity>
         <activity
             android:name=".RegistroUsuario"
             android:label="Datos de usuario"></activity>

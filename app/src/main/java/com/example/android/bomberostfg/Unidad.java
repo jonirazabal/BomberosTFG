@@ -8,6 +8,7 @@ public class Unidad {
     private int patrulla;
     private float latitud;
     private float longitud;
+    private String foto;
     public Unidad() { }
 
     public String getMcptt_id() {
@@ -58,6 +59,14 @@ public class Unidad {
         this.longitud = longitud;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -67,6 +76,7 @@ public class Unidad {
                 ", patrulla=" + patrulla +
                 ", latitud=" + latitud +
                 ", longitud=" + longitud +
+                ", foto=" + foto +
                 "}\n";
     }
 }

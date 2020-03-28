@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,6 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +81,17 @@ public class FirebaseActivity {
         System.out.println("ORDENES: "+Utilidades.ordenMandada.toString());
         return key;
     }
-
+    public void deleteOrdenesDeActuacion(int idActuacion){
+        for(int i=0;i<Utilidades.ordenMandada.size();i++) {
+            if (Utilidades.ordenMandada.get(i).getId() == idActuacion){
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                Date date = new Date();
+                String fecha = dateFormat.format(date);
+                databaseFirebase.child("ordenes").child(Utilidades.ordenMandada.get(i).getKey()).child("Fin").setValue(date.toString());
+                Utilidades.ordenMandada.get(i).setFin(fecha);
+            }
+        }
+    }
 
     public void terminarEmergencia(String fecha,String key){
         databaseFirebase.child("emergencias").child(key).child("Final").setValue(fecha);
@@ -91,5 +103,20 @@ public class FirebaseActivity {
                 Utilidades.ordenMandada.get(i).setFin(fecha);
             }
         }
+    }
+    public void insertarMensaje(String mcptt_id, int patrulla,String tipo, String mensaje){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        String fecha = dateFormat.format(date);
+        HashMap<String,Object> lista = new HashMap<>();
+        lista.put("Patrulla", patrulla);
+        lista.put("mcptt_id", mcptt_id);
+        lista.put("Mensaje", mensaje);
+        lista.put("Tipo", tipo);
+        lista.put("Fecha", fecha);
+        String key = databaseFirebase.child("mensajes").push().getKey();
+        Utilidades.mensajes.add(new Mensaje(key, mcptt_id, patrulla,fecha,tipo,mensaje));
+        databaseFirebase.child("mensajes").child(key).setValue(lista);
+
     }
 }

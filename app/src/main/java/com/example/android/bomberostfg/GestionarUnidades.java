@@ -1,5 +1,6 @@
 package com.example.android.bomberostfg;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
@@ -62,10 +63,6 @@ public class GestionarUnidades extends AppCompatActivity {
         adapterPatrullas=new AdaptadorPatrullas(getApplicationContext(), lista);
         listViewPatrullas.setAdapter(adapterPatrullas);
     }
-    private void actualizarListView(){
-        adapterPatrullas=new AdaptadorPatrullas(getApplicationContext(), Utilidades.patrullas);
-        listViewPatrullas.setAdapter(adapterPatrullas);
-    }
 
     private Float calcularDistanciaMinima ( int patrulla){
         float[]  latitudUnidadCercana = new float[Utilidades.patrullas.size()];
@@ -94,5 +91,10 @@ public class GestionarUnidades extends AppCompatActivity {
         return minDistance;
     }
 
-
+    @Override
+    protected void onDestroy() {
+        Intent intent = getIntent();
+        setResult(Activity.RESULT_OK, intent);
+        super.onDestroy();
+    }
 }

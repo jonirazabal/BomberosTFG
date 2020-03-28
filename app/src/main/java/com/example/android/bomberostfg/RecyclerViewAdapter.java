@@ -22,11 +22,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private ArrayList<Integer> imagenes;
         private static final String TAG = "RecyclerViewAdapter";
         private Context mContext;
+        private int patrulla;
 
-    public RecyclerViewAdapter(ArrayList<String> nombres, ArrayList<Integer> imagenes, Context mContext) {
+    public RecyclerViewAdapter(ArrayList<String> nombres, ArrayList<Integer> imagenes,int ppatrulla, Context mContext) {
         this.nombres = nombres;
         this.imagenes = imagenes;
         this.mContext = mContext;
+        this.patrulla = ppatrulla;
     }
 
     @NonNull
@@ -45,16 +47,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View view) {
                 if(position == 0){
                     Toast.makeText(mContext, "Orden de evacuacion mandada", Toast.LENGTH_SHORT).show();
-                    sonarEmergencia("Evacuacion inmediata",MainActivity.patrulla);}
+                    sonarEmergencia("Evacuacion inmediata",patrulla);}
                 if(position == 1){
                     Toast.makeText(mContext, "Orden de inmobilización mandada", Toast.LENGTH_SHORT).show();
-                    sonarEmergencia("Inmobilización general",MainActivity.patrulla);}
+                    sonarEmergencia("Inmobilización general",patrulla);}
                 if(position == 2){
                     Toast.makeText(mContext, "Orden de informe mandada", Toast.LENGTH_SHORT).show();
-                    sonarEmergencia("Informe de situación", MainActivity.patrulla);}
+                    sonarEmergencia("Informe de situación", patrulla);}
             }
         });
-        System.out.println(MainActivity.patrulla);
+        System.out.println("Patrulla recyclerView: "+patrulla);
     }
 
     @Override

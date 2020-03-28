@@ -1,5 +1,6 @@
 package com.example.android.bomberostfg;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -76,6 +77,7 @@ import com.google.maps.android.clustering.ClusterItem;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
         GoogleMap.OnMyLocationClickListener {
+    private static final int ELIMINAR_ACTUACION = 34;
     private String mcptt_id="";
     private HashMap<Integer, ClusterManager> listaCluster;
     private static GoogleMap mMap;
@@ -117,8 +119,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         request = Volley.newRequestQueue(getApplicationContext());
-        mapFragment.getMapAsync(this);
         zoomDone=false;
+        mapFragment.getMapAsync(this);
     }
 
 
@@ -175,6 +177,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Intent intent = new Intent(getApplicationContext(), GestionarUnidades.class);
                         intent.putExtra("id", Utilidades.actuaciones.get(i).getId());
                         intent.putExtra("nombre", Utilidades.actuaciones.get(i).getNombre());
+                        Utilidades.actuacionFragment = new LatLng(actuaciones[i].getPosition().latitude, actuaciones[i].getPosition().longitude);
+                        Utilidades.selectedActuacion = Utilidades.actuaciones.get(i);
                         startActivity(intent);
                     }
                 }
@@ -244,10 +248,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         clearMarcadoresActuaciones();
         actuaciones = new Marker[Utilidades.actuaciones.size()];
         for (int i = 0; i < Utilidades.actuaciones.size(); i++) {
-            actuaciones[i] = mMap.addMarker(new MarkerOptions()
-                    .icon(actuacionIcono).snippet("Click para ver recursos")
-                    .position(new LatLng(Utilidades.actuaciones.get(i).getLatitud(), Utilidades.actuaciones.get(i).getLongitud()))
-                    .title(Utilidades.actuaciones.get(i).getNombre()).anchor(0.1f, 0.5f));
+            System.out.println("ID: "+Utilidades.actuaciones.get(i).getId()+", fecha: "+Utilidades.actuaciones.get(i).getFechaFinal());
+            if(Utilidades.actuaciones.get(i).getFechaFinal()==null || Utilidades.actuaciones.get(i).getFechaFinal().isEmpty()) {
+                actuaciones[i] = mMap.addMarker(new MarkerOptions()
+                        .icon(actuacionIcono).snippet("Click para ver recursos")
+                        .position(new LatLng(Utilidades.actuaciones.get(i).getLatitud(), Utilidades.actuaciones.get(i).getLongitud()))
+                        .title(Utilidades.actuaciones.get(i).getNombre()).anchor(0.1f, 0.5f));
+            }
 
         }
     }
@@ -269,6 +276,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         */
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
@@ -349,6 +360,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
+        if(mMap!=null) {
+            createMarcadoresActuaciones();
+        }
 
     }
 
@@ -436,7 +450,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker) {
         database = new BaseDeDatos(this);
-
         for (int i = 0; i < actuaciones.length; i++) {
             if (marker.equals(actuaciones[i])) {
                 Intent intent = new Intent(getApplicationContext(), GestionarUnidades.class);
@@ -445,14 +458,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 Utilidades.actuacionFragment = new LatLng(actuaciones[i].getPosition().latitude, actuaciones[i].getPosition().longitude);
                 Utilidades.selectedActuacion = Utilidades.actuaciones.get(i);
-                startActivity(intent);
+                startActivityForResult(intent, ELIMINAR_ACTUACION);
                 return true;
-            }
-            else{
-                Log.d("Marcadores", "Distinto");
             }
         }
         return false;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode==ELIMINAR_ACTUACION){
+            if(resultCode==RESULT_OK){
+                createMarcadoresActuaciones();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

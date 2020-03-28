@@ -39,9 +39,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,7 +63,7 @@ public class FragmentMaps extends Fragment {
     private RequestQueue request;
     private float latitudUnidad;
     private float longitudUnidad;
-
+    private boolean eliminado=false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,9 +101,28 @@ public class FragmentMaps extends Fragment {
 
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
-            public void onMapReady(GoogleMap mMap) {
+            public void onMapReady(final GoogleMap mMap) {
                 googleMap = mMap;
+                googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        BaseDeDatos database = new BaseDeDatos(getContext());
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        Date date = new Date();
+                        String fecha = dateFormat.format(date);
+                        database.execute("eliminarActuacion.php",String.valueOf(idActuacion),fecha);
+                        FirebaseActivity firebase = new FirebaseActivity(getContext());
+                        firebase.deleteOrdenesDeActuacion(idActuacion);
+                        for(int i=0;i<Utilidades.actuaciones.size();i++){
+                            if(Utilidades.actuaciones.get(i).getId()==idActuacion){
+                                Utilidades.actuaciones.get(i).setFechaFinal(fecha);
+                                break;
+                            }
+                        }
 
+                        ((GestionarUnidades) getActivity()).finish();
+                    }
+                });
                 // For showing a move to my location button
                 googleMap.setMyLocationEnabled(true);
                 createMarcadoresActuaciones();
@@ -116,13 +138,13 @@ public class FragmentMaps extends Fragment {
     }
 
     public void createMarcadoresActuaciones() {
-        actuaciones = new Marker[Utilidades.actuaciones.size()];
+        actuaciones = new Marker[1];
         for (int i = 0; i < Utilidades.actuaciones.size(); i++) {
             if(idActuacion == Utilidades.actuaciones.get(i).getId()) {
-                        actuaciones[i] = googleMap.addMarker(new MarkerOptions()
-                        .icon(actuacionIcono).snippet("Calcular KM hasta actuación")
+                        actuaciones[0] = googleMap.addMarker(new MarkerOptions()
+                        .icon(actuacionIcono)
                         .position(new LatLng(Utilidades.actuaciones.get(i).getLatitud(), Utilidades.actuaciones.get(i).getLongitud()))
-                        .title(Utilidades.actuaciones.get(i).getNombre()).anchor(0.1f, 0.5f));
+                        .title("Eliminar").anchor(0.2f, 0.3f));
             }
 
         }

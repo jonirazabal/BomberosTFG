@@ -16,8 +16,9 @@ public class Utilidades {
     public static ArrayList<Patrulla> patrullas = new ArrayList<>();
     public static LatLng actuacionFragment = new LatLng(0,0);
     public static Actuacion selectedActuacion;
-    public static ArrayList<Orden> ordenMandada= new ArrayList<>();
-
+    public static ArrayList<Orden> ordenMandada= new ArrayList<Orden>();
+    public static ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
+    public static ArrayList<Mensaje> notificacionMensajes = new ArrayList<Mensaje>();
 }
 
 

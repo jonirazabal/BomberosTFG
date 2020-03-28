@@ -131,8 +131,7 @@ public class BaseDeDatos extends AsyncTask<String, String,String> {
                     correctResponse = "Unidad insertada correctamente";
                     urlConnection.setRequestMethod("POST");
                     params.put("mcptt_id", strings[1]);
-                    params.put("latitud", strings[2]);
-                    params.put("longitud", strings[3]);
+                    params.put("foto", strings[2]);
                     break;
                 } catch (ProtocolException e) {
                     e.printStackTrace();
@@ -143,10 +142,21 @@ public class BaseDeDatos extends AsyncTask<String, String,String> {
                     urlConnection.setRequestMethod("POST");
                     params.put("mcptt_id", strings[1]);
                     params.put("nombre", strings[2]);
-                    params.put("patrulla", strings[3]);
-                    params.put("especialidad", strings[4]);
+                    params.put("especialidad", strings[3]);
+                    params.put("patrulla", strings[4]);
                     params.put("latitud", strings[5]);
                     params.put("longitud", strings[6]);
+                    System.out.println("PARAMS: "+params.toString());
+                    break;
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                }
+            case "eliminarActuacion.php":
+                try {
+                    correctResponse = "Actuacion eliminada correctamente";
+                    urlConnection.setRequestMethod("POST");
+                    params.put("id", strings[1]);
+                    params.put("fecha", strings[2]);
                     break;
                 } catch (ProtocolException e) {
                     e.printStackTrace();
@@ -155,9 +165,10 @@ public class BaseDeDatos extends AsyncTask<String, String,String> {
                 try {
                     correctResponse = "Actuación insertada correctamente";
                     urlConnection.setRequestMethod("POST");
-                    params.put("nombre", strings[1]);
-                    params.put("latitud", strings[2]);
-                    params.put("longitud", strings[3]);
+                    params.put("tipo", strings[1]);
+                    params.put("nombre", strings[2]);
+                    params.put("latitud", strings[3]);
+                    params.put("longitud", strings[4]);
                     break;
                 } catch (ProtocolException e) {
                     e.printStackTrace();
@@ -296,7 +307,7 @@ public class BaseDeDatos extends AsyncTask<String, String,String> {
 
     @Override
     protected void onPostExecute(String s) {
-        Toast.makeText(context, correctResponse, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, correctResponse, Toast.LENGTH_SHORT).show();
         super.onPostExecute(s);
     }
 
@@ -335,6 +346,7 @@ public class BaseDeDatos extends AsyncTask<String, String,String> {
                 unidad.setPatrulla(jsonObject.getInt("patrulla"));
                 unidad.setLatitud(Float.parseFloat(String.valueOf(jsonObject.getDouble("latitud"))));
                 unidad.setLongitud(Float.parseFloat(String.valueOf(jsonObject.getDouble("longitud"))));
+                unidad.setFoto(jsonObject.getString("foto"));
                 Utilidades.unidades.add(unidad);
             }
 

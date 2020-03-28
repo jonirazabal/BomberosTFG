@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:ems="10"
-            android:numeric="decimal" />
+            android:numeric="signed|decimal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:ems="10"
-                android:numeric="decimal" />
+                android:numeric="signed|decimal" />
         </LinearLayout>
 
     </LinearLayout>
@@ -107,7 +107,7 @@
         <EditText
             android:id="@+id/localidadEdit"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginStart="5dp"
             android:ems="10"
             android:inputType="textPersonName" />
@@ -128,7 +128,7 @@
         <EditText
             android:id="@+id/calleEdit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginStart="5dp"
             android:ems="10"
             android:inputType="textPersonName" />
@@ -150,7 +150,7 @@
         <EditText
             android:id="@+id/numeroEdit"
             android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginStart="5dp"
             android:ems="10"
             android:inputType="number" />
